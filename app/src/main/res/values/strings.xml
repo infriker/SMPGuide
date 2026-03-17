@@ -1,17 +1,20 @@
 <resources>
     <string name="app_name">SMPGuide</string>
-    <string name="nav_templates">Shablony kart</string>
-    <string name="nav_cheatsheets">Shpargalki</string>
-    <string name="nav_about">O prilozhenii</string>
-    <string name="navigation_drawer_open">Open navigation</string>
-    <string name="navigation_drawer_close">Close navigation</string>
-    <string name="loading">Zagruzka...</string>
-    <string name="no_internet">Net podklyucheniya k internetu</string>
-    <string name="open_in_telegram">Otkryt\' v Telegram</string>
-    <string name="telegram_required">Dlya prosmotra etogo kontenta neobkhodimo prilozhenie Telegram</string>
-    <string name="install_telegram">Ustanovite Telegram</string>
-    <string name="about_title">O prilozhenii</string>
-    <string name="about_description">SMPGuide - spravochnik dlya rabotnikov skoroj pomoshchi. Soderzhit shablony kart vyzova i shpargalki po razlichnym medicinskym temam.</string>
-    <string name="about_version">Versiya %1$s</string>
-    <string name="about_disclaimer">Prilozhenie sozdano dlya udobstva rabotnikov SMP. Vsya informaciya vzjata iz otkrytyh istochnikov.</string>
+    <string name="nav_templates">\u0428\u0430\u0431\u043b\u043e\u043d\u044b \u043a\u0430\u0440\u0442</string>
+    <string name="nav_cheatsheets">\u0428\u043f\u0430\u0440\u0433\u0430\u043b\u043a\u0438</string>
+    <string name="nav_about">\u041e \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0438</string>
+    <string name="navigation_drawer_open">\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u043c\u0435\u043d\u044e</string>
+    <string name="navigation_drawer_close">\u0417\u0430\u043a\u0440\u044b\u0442\u044c \u043c\u0435\u043d\u044e</string>
+    <string name="loading">\u0417\u0430\u0433\u0440\u0443\u0437\u043a\u0430\u2026</string>
+    <string name="no_internet">\u041d\u0435\u0442 \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0435\u043d\u0438\u044f \u043a \u0438\u043d\u0442\u0435\u0440\u043d\u0435\u0442\u0443</string>
+    <string name="open_in_telegram">\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0432 Telegram</string>
+    <string name="telegram_required">\u0414\u043b\u044f \u043f\u0440\u043e\u0441\u043c\u043e\u0442\u0440\u0430 \u044d\u0442\u043e\u0433\u043e \u043a\u043e\u043d\u0442\u0435\u043d\u0442\u0430 \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u043e \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0435 Telegram</string>
+    <string name="install_telegram">\u0423\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u0435 Telegram</string>
+    <string name="about_title">\u041e \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0438</string>
+    <string name="about_description">SMPGuide \u2014 \u0441\u043f\u0440\u0430\u0432\u043e\u0447\u043d\u0438\u043a \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u043d\u0438\u043a\u043e\u0432 \u0441\u043a\u043e\u0440\u043e\u0439 \u043c\u0435\u0434\u0438\u0446\u0438\u043d\u0441\u043a\u043e\u0439 \u043f\u043e\u043c\u043e\u0449\u0438. \u0421\u043e\u0434\u0435\u0440\u0436\u0438\u0442 \u0448\u0430\u0431\u043b\u043e\u043d\u044b \u043a\u0430\u0440\u0442 \u0432\u044b\u0437\u043e\u0432\u0430 \u0438 \u0448\u043f\u0430\u0440\u0433\u0430\u043b\u043a\u0438 \u043f\u043e \u0440\u0430\u0437\u043b\u0438\u0447\u043d\u044b\u043c \u043c\u0435\u0434\u0438\u0446\u0438\u043d\u0441\u043a\u0438\u043c \u0442\u0435\u043c\u0430\u043c.</string>
+    <string name="about_version">\u0412\u0435\u0440\u0441\u0438\u044f %1$s</string>
+    <string name="about_disclaimer">\u041f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0441\u043e\u0437\u0434\u0430\u043d\u043e \u0434\u043b\u044f \u0443\u0434\u043e\u0431\u0441\u0442\u0432\u0430 \u0440\u0430\u0431\u043e\u0442\u043d\u0438\u043a\u043e\u0432 \u0421\u041c\u041f. \u0412\u0441\u044f \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f \u0432\u0437\u044f\u0442\u0430 \u0438\u0437 \u043e\u0442\u043a\u0440\u044b\u0442\u044b\u0445 \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a\u043e\u0432.</string>
+    <string name="nav_subtitle">\u0421\u043f\u0440\u0430\u0432\u043e\u0447\u043d\u0438\u043a \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u043d\u0438\u043a\u043e\u0432 \u0421\u041c\u041f</string>
+    <string name="github_link">\u0418\u0441\u0445\u043e\u0434\u043d\u044b\u0439 \u043a\u043e\u0434 \u043d\u0430 GitHub</string>
+    <string name="github_url">https://github.com/infriker/SMPGuide</string>
 </resources>
