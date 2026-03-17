@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.smp_help.BuildConfig
+import com.example.smp_help.R
 import com.example.smp_help.databinding.FragmentAboutBinding
 
 class AboutFragment : Fragment() {
@@ -22,10 +22,9 @@ class AboutFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.versionText.text = getString(
-            com.example.smp_help.R.string.about_version,
-            BuildConfig.VERSION_NAME
-        )
+        val versionName = requireContext().packageManager
+            .getPackageInfo(requireContext().packageName, 0).versionName
+        binding.versionText.text = getString(R.string.about_version, versionName)
     }
 
     override fun onDestroyView() {

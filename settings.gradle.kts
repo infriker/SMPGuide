@@ -22,5 +22,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SMP_HELP"
+rootProject.name = "SMPGuide"
 include(":app")

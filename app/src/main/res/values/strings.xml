@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SMP Shpargalki</string>
+    <string name="app_name">SMPGuide</string>
     <string name="nav_templates">Shablony kart</string>
     <string name="nav_cheatsheets">Shpargalki</string>
     <string name="nav_about">O prilozhenii</string>
@@ -11,7 +11,7 @@
     <string name="telegram_required">Dlya prosmotra etogo kontenta neobkhodimo prilozhenie Telegram</string>
     <string name="install_telegram">Ustanovite Telegram</string>
     <string name="about_title">O prilozhenii</string>
-    <string name="about_description">SMP Shpargalki - spravochnik dlya rabotnikov skoroj pomoshchi. Soderzhit shablony kart vyzova i shpargalki po razlichnym medicinskym temam.</string>
+    <string name="about_description">SMPGuide - spravochnik dlya rabotnikov skoroj pomoshchi. Soderzhit shablony kart vyzova i shpargalki po razlichnym medicinskym temam.</string>
     <string name="about_version">Versiya %1$s</string>
     <string name="about_disclaimer">Prilozhenie sozdano dlya udobstva rabotnikov SMP. Vsya informaciya vzjata iz otkrytyh istochnikov.</string>
 </resources>
