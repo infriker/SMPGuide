@@ -410,6 +410,17 @@ object DataSource {
         MenuItem("\uD83D\uDE00", "\u041f\u0440\u043e\u0447\u0435\u0435", "templates/prochee.html")
     )
 
+    val calculators: List<MenuItem> = listOf(
+        MenuItem("", "Детские возрастные нормы", "calculators/detskie_normy.html"),
+        MenuItem("", "Препараты в педиатрии", "calculators/prep_pediatriya.html"),
+        MenuItem("", "Срок беременности, ПДР", "calculators/srok_beremennosti.html"),
+        MenuItem("", "Шкала ШОКС (ХСН)", "calculators/shoks.html"),
+        MenuItem("", "Шкала NEWS", "calculators/news.html"),
+        MenuItem("", "Шкала комы Глазго", "calculators/glazgo.html"),
+        MenuItem("", "Шкала вероятности ТЭЛА", "calculators/tela.html"),
+        MenuItem("", "Шкала LAMS", "calculators/lams.html"),
+    )
+
     val cheatSheets: List<MenuItem> = listOf(
         MenuItem("\uD83C\uDFE5", "\u0410\u0434\u0440\u0435\u0441\u0430 \u0438 \u043d\u043e\u043c\u0435\u0440\u0430 \u043f\u043e\u0434\u0441\u0442\u0430\u043d\u0446\u0438\u0439", "cheatsheets/adresa_podstancij.html"),
         MenuItem("\uD83D\uDC66", "\u0411\u0435\u0441\u043f\u0440\u0438\u0437\u043e\u0440\u043d\u044b\u0439", "cheatsheets/besprizornyj.html"),

@@ -9,6 +9,10 @@
         android:icon="@drawable/ic_cheatsheets"
         android:title="@string/nav_cheatsheets" />
     <item
+        android:id="@+id/calculatorsFragment"
+        android:icon="@drawable/ic_calculators"
+        android:title="@string/nav_calculators" />
+    <item
         android:id="@+id/aboutFragment"
         android:icon="@drawable/ic_about"
         android:title="@string/nav_about" />

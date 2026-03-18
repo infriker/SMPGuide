@@ -37,6 +37,12 @@
         tools:layout="@layout/fragment_list" />
 
     <fragment
+        android:id="@+id/calculatorsFragment"
+        android:name="com.example.smp_help.ui.CalculatorsFragment"
+        android:label="@string/nav_calculators"
+        tools:layout="@layout/fragment_list" />
+
+    <fragment
         android:id="@+id/aboutFragment"
         android:name="com.example.smp_help.ui.AboutFragment"
         android:label="@string/nav_about"

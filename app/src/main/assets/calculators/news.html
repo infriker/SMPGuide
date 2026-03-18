@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Шкала NEWS</title>
+<style>
+:root{--bg:#fff;--text:#222;--panel:#fff;--sub:#f7f7f7;--border:#ccc;--shadow:rgba(0,0,0,.15);--red:#e63946;--blue:#4682B4;}
+*{box-sizing:border-box;}
+body{background:var(--bg);font-family:Arial,sans-serif;margin:0;padding:16px;color:var(--text);}
+h2{font-size:20px;text-align:center;color:var(--red);border-bottom:2px solid var(--red);padding-bottom:8px;margin-bottom:16px;}
+.calc-box{background:var(--panel);padding:16px;border-radius:12px;box-shadow:0 4px 10px var(--shadow);}
+.calc-title{text-align:center;font-size:20px;margin-bottom:14px;}
+.calc-row{display:flex;gap:10px;margin-bottom:12px;align-items:center;}
+.calc-select{flex:1;padding:10px;font-size:15px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--text);}
+.calc-result{background:var(--sub);border-radius:8px;padding:14px;font-size:17px;text-align:center;color:var(--text);margin-top:10px;}
+.calc-total{margin-top:12px;padding:12px;background:var(--sub);border:1px solid var(--border);border-radius:10px;font-size:18px;font-weight:bold;text-align:center;}
+.calc-info{margin-top:10px;padding:10px;border-radius:8px;border:2px solid var(--red);color:var(--red);font-size:16px;font-weight:bold;text-align:center;background:var(--panel);}
+/* calc-section grid rows */
+.calc-section .calc-row{display:grid;grid-template-columns:55% 30% 15%;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px;background:var(--sub);}
+.calc-section .calc-row>*{border-right:1px solid var(--border);padding:8px;min-width:0;}
+.calc-section .calc-row>*:last-child{border-right:none;}
+.calc-section .calc-row label{font-size:13px;line-height:1.2;display:flex;align-items:center;word-break:break-word;}
+.calc-section .calc-row select{width:100%;padding:5px;font-size:13px;border-radius:6px;border:1px solid var(--border);background:var(--panel);color:var(--text);}
+.calc-score{font-size:15px;font-weight:bold;text-align:center;display:flex;align-items:center;justify-content:center;}
+/* pregnancy */
+.preg-box{background:var(--panel);padding:14px;border-radius:12px;box-shadow:0 4px 10px var(--shadow);}
+.preg-inner{background:var(--sub);padding:14px;border-radius:10px;}
+.preg-box label{color:var(--text);font-size:15px;}
+.preg-box input[type=date]{width:100%;padding:10px;margin:8px 0 14px;border:1px solid var(--border);border-radius:8px;background:var(--panel);color:var(--text);font-size:15px;}
+.red-btn{background:var(--red);color:#fff;width:100%;padding:12px;border:none;border-radius:10px;font-size:17px;cursor:pointer;}
+#pregResult{background:var(--panel);padding:14px;border-radius:10px;margin-top:14px;color:var(--text);font-size:17px;text-align:center;}
+/* drugs */
+.drug-search-row{display:flex;gap:6px;margin-bottom:10px;}
+.calc-input{flex:1;padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:15px;}
+.list-btn{width:42px;background:#e0e0e0;border-radius:8px;border:none;font-size:18px;cursor:pointer;}
+#drugList{font-size:17px;line-height:1.5;background:var(--panel);color:var(--text);border:1px solid var(--border);width:100%;}
+</style>
+</head>
+<body>
+<h2>Шкала NEWS</h2>
+<div class="calc-section"><div class="calc-box">
+<h3 class="calc-title">Протокол оценки тяжести состояния NEWS</h3>
+<div id="newsRows"></div>
+<div class="calc-total">Общий балл: <span id="newsTotal">0</span></div>
+</div></div>
+<script>
+const newsData = [
+  {label:"Частота дыхания за 1 минуту", options:[{text:"≤8", value:3},{text:"9–11", value:1},{text:"12–20", value:0},{text:"21–24", value:2},{text:"≥25", value:3}]},
+  {label:"Насыщение крови кислородом (SpO₂)", options:[{text:"≤91 %", value:3},{text:"92–93 %", value:2},{text:"94–95 %", value:1},{text:"≥96 %", value:0}]},
+  {label:"Необходимость инсуффляции кислорода", options:[{text:"Да", value:1},{text:"Нет", value:0}]},
+  {label:"Температура тела (°C)", options:[{text:"≤35,0", value:3},{text:"35,1 – 36,0", value:1},{text:"36,1 – 38,0", value:0},{text:"38,1 – 39,0", value:1},{text:"≥39,1", value:2}]},
+  {label:"Систолическое АД", options:[{text:"≤90", value:3},{text:"91 – 100", value:2},{text:"101 – 110", value:1},{text:"111 – 219", value:0},{text:"≥220", value:3}]},
+  {label:"Частота сердечных сокращений (ЧСС)", options:[{text:"≤40", value:3},{text:"41 – 50", value:1},{text:"51 – 90", value:0},{text:"91 – 110", value:1},{text:"111 – 130", value:2},{text:"≥131", value:3}]},
+  {label:"Изменение уровня сознания", options:[{text:"Нет", value:0},{text:"Есть", value:3}]}];
+
+function generateNewsCalc(){
+  const container = document.getElementById("newsRows");
+  container.innerHTML = "";
+  newsData.forEach(item=>{
+    const row = document.createElement("div");
+    row.className = "calc-row";
+
+    const label = document.createElement("label");
+    label.textContent = item.label;
+
+    const select = document.createElement("select");
+    select.innerHTML = `<option value="">Выберите</option>` +
+      item.options.map(o=>`<option value="${o.value}">${o.text}</option>`).join("");
+
+    const score = document.createElement("div");
+    score.className = "calc-score";
+    score.textContent = "0";
+
+    select.addEventListener("change", ()=>{
+      score.textContent = select.value || 0;
+      const total = Array.from(container.querySelectorAll(".calc-score"))
+        .reduce((sum,s)=>sum+parseInt(s.textContent),0);
+      document.getElementById("newsTotal").textContent = total;
+    });
+
+    row.appendChild(label);
+    row.appendChild(select);
+    row.appendChild(score);
+    container.appendChild(row);
+  });
+}
+
+document.addEventListener("DOMContentLoaded", generateNewsCalc);
+
+</script>
+</body>
+</html>

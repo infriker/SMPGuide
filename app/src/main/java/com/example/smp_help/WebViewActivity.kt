@@ -31,7 +31,7 @@ class WebViewActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener { finish() }
 
         binding.webView.settings.apply {
-            javaScriptEnabled = false
+            javaScriptEnabled = true
             setSupportZoom(true)
             builtInZoomControls = true
             displayZoomControls = false
