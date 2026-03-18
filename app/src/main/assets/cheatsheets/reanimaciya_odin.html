@@ -1,18 +1,165 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body { font-family: sans-serif; padding: 16px; color: #333; line-height: 1.6; }
-h1 { color: #D32F2F; font-size: 22px; border-bottom: 2px solid #D32F2F; padding-bottom: 8px; }
-.placeholder { background: #FFF3F3; border: 1px dashed #D32F2F; border-radius: 8px; padding: 20px; margin-top: 16px; text-align: center; color: #999; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Реанимация — если один</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 16px;
+      color: #333;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #D32F2F;
+      font-size: 22px;
+      border-bottom: 2px solid #D32F2F;
+      padding-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-top: -4px;
+      margin-bottom: 16px;
+    }
+    .step {
+      background: #FFF8F8;
+      border-left: 4px solid #D32F2F;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 4px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #D32F2F;
+      color: #fff;
+      font-weight: bold;
+      font-size: 13px;
+      border-radius: 50%;
+      min-width: 26px;
+      height: 26px;
+      flex-shrink: 0;
+    }
+    .step-text {
+      flex: 1;
+      padding-top: 2px;
+    }
+    h2 {
+      font-size: 17px;
+      margin-top: 24px;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    .criteria {
+      background: #F1FBF4;
+      border-left: 4px solid #388E3C;
+      padding: 12px 12px 12px 16px;
+      margin: 8px 0;
+      border-radius: 4px;
+    }
+    .criteria ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .criteria ul li {
+      margin-bottom: 6px;
+    }
+    .links-section {
+      margin-top: 24px;
+      background: #F0F4FF;
+      border-left: 4px solid #1565C0;
+      padding: 12px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .links-section a {
+      color: #1565C0;
+      text-decoration: none;
+    }
+    .links-section a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-<h1>Reanimaciya esli odin</h1>
-<div class="placeholder">
-<p>Kontent budet dobavlen pozdnee</p>
-</div>
+
+  <h1>Реанимация — если один</h1>
+  <p class="subtitle">Порядок действий при клинической смерти (один сотрудник на вызове)</p>
+
+  <div class="step">
+    <span class="step-number">1</span>
+    <span class="step-text">Оценка безопасности места</span>
+  </div>
+
+  <div class="step">
+    <span class="step-number">2</span>
+    <span class="step-text">Оценка сознания → нет ответа</span>
+  </div>
+
+  <div class="step">
+    <span class="step-number">3</span>
+    <span class="step-text">Проверка дыхания методом «вижу-слышу-чувствую» 10 сек → дыхания нет</span>
+  </div>
+
+  <div class="step">
+    <span class="step-number">4</span>
+    <span class="step-text">Зафиксировать время</span>
+  </div>
+
+  <div class="step">
+    <span class="step-number">5</span>
+    <span class="step-text">Нажать кнопку «клиническая смерть»</span>
+  </div>
+
+  <div class="step">
+    <span class="step-number">6</span>
+    <span class="step-text">Перенести пациента на твёрдую поверхность</span>
+  </div>
+
+  <div class="step">
+    <span class="step-number">7</span>
+    <span class="step-text">Начать непрямой массаж сердца</span>
+  </div>
+
+  <div class="step">
+    <span class="step-number">8</span>
+    <span class="step-text">Собрать дыхательный мешок <em>(не более 10 сек; при наличии — попросить родственников или водителя)</em></span>
+  </div>
+
+  <div class="step">
+    <span class="step-number">9</span>
+    <span class="step-text">Организовать доставку дефибриллятора <em>(продолжать компрессии; попросить родственников или водителя)</em></span>
+  </div>
+
+  <div class="step">
+    <span class="step-number">10</span>
+    <span class="step-text">Включить дефибриллятор в ручном режиме, оценить ритм. При показаниях — первый разряд <strong>150 Дж</strong></span>
+  </div>
+
+  <div class="step">
+    <span class="step-number">11</span>
+    <span class="step-text">Повторная оценка ритма каждые 5 циклов компрессий или каждые 2 минуты с распечаткой ЭКГ</span>
+  </div>
+
+  <h2>Критерии эффективности</h2>
+
+  <div class="criteria">
+    <ul>
+      <li>Восстановление самостоятельного кровообращения: появление пульса, самостоятельного дыхания, движений</li>
+      <li>Прекращение реанимации через <strong>30 минут</strong> при отсутствии восстановления кровообращения</li>
+    </ul>
+  </div>
+
+  <div class="links-section">
+    <strong>Полезные ссылки:</strong><br>
+    Занятия по СЛР — <a href="https://t.me/BLS_instructor" target="_blank">https://t.me/BLS_instructor</a>
+  </div>
+
 </body>
 </html>

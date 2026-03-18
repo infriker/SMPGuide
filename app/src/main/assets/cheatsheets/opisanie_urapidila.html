@@ -6,13 +6,158 @@
 <style>
 body { font-family: sans-serif; padding: 16px; color: #333; line-height: 1.6; }
 h1 { color: #D32F2F; font-size: 22px; border-bottom: 2px solid #D32F2F; padding-bottom: 8px; }
-.placeholder { background: #FFF3F3; border: 1px dashed #D32F2F; border-radius: 8px; padding: 20px; margin-top: 16px; text-align: center; color: #999; }
+h2 { color: #D32F2F; font-size: 16px; margin-top: 20px; margin-bottom: 6px; }
+
+.block {
+  background: #FFF8F8;
+  border-left: 4px solid #D32F2F;
+  border-radius: 4px;
+  padding: 14px 16px;
+  margin-top: 16px;
+  font-size: 15px;
+}
+
+.drug-line {
+  background: #F3F3FF;
+  border-left: 4px solid #5C6BC0;
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-top: 16px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.assessment {
+  background: #F9FBE7;
+  border-left: 4px solid #AFB42B;
+  border-radius: 4px;
+  padding: 14px 16px;
+  margin-top: 16px;
+  font-size: 15px;
+}
+
+.assessment-label {
+  font-weight: bold;
+  color: #827717;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.field {
+  margin-top: 8px;
+}
+
+.field-name {
+  font-weight: bold;
+  color: #555;
+}
+
+.field-line {
+  border-bottom: 1px solid #bbb;
+  min-height: 24px;
+  margin-top: 2px;
+  margin-bottom: 8px;
+}
+
+.step-badge {
+  display: inline-block;
+  background: #D32F2F;
+  color: #fff;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.step-title {
+  font-weight: bold;
+  font-size: 15px;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.arrow {
+  text-align: center;
+  font-size: 22px;
+  color: #D32F2F;
+  margin-top: 12px;
+}
 </style>
 </head>
 <body>
-<h1>Opisanie urapidila</h1>
-<div class="placeholder">
-<p>Kontent budet dobavlen pozdnee</p>
+<h1>Описание урапидила</h1>
+
+<div class="step-title">
+  <span class="step-badge">1</span> Приготовление и первое введение
 </div>
+<div class="drug-line">
+  Sol. Urapidili 5 mg/ml — 5 ml + Sol. Natrii Chloridi 0,9% — 10 ml<br>
+  в/в медленно, в течение 5 минут введено <strong>7,5 мл раствора (12,5 мг)</strong> под контролем АД.
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="step-title">
+  <span class="step-badge">2</span> Оценка через 5 минут
+</div>
+<div class="assessment">
+  <div class="assessment-label">Оценка состояния через 5 мин</div>
+  <div class="field">
+    <div class="field-name">Жалобы:</div>
+    <div class="field-line"></div>
+  </div>
+  <div class="field">
+    <div class="field-name">Состояние:</div>
+    <div class="field-line"></div>
+  </div>
+  <div class="field">
+    <div class="field-name">Гемодинамика (АД / ЧСС):</div>
+    <div class="field-line"></div>
+  </div>
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="step-title">
+  <span class="step-badge">3</span> Второе введение
+</div>
+<div class="drug-line">
+  Оставшиеся <strong>7,5 мл (12,5 мг)</strong> в/в медленно, в течение 5 минут.
+</div>
+
+<div class="arrow">↓</div>
+
+<div class="step-title">
+  <span class="step-badge">4</span> Итоговая оценка
+</div>
+<div class="assessment">
+  <div class="assessment-label">Итоговая оценка</div>
+  <div class="field">
+    <div class="field-name">Жалобы:</div>
+    <div class="field-line"></div>
+  </div>
+  <div class="field">
+    <div class="field-name">Состояние:</div>
+    <div class="field-line"></div>
+  </div>
+  <div class="field">
+    <div class="field-name">Гемодинамика (АД / ЧСС):</div>
+    <div class="field-line"></div>
+  </div>
+  <div class="field">
+    <div class="field-name">Эффект:</div>
+    <div class="field-line"></div>
+  </div>
+</div>
+
 </body>
 </html>
