@@ -1,18 +1,324 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body { font-family: sans-serif; padding: 16px; color: #333; line-height: 1.6; }
-h1 { color: #D32F2F; font-size: 22px; border-bottom: 2px solid #D32F2F; padding-bottom: 8px; }
-.placeholder { background: #FFF3F3; border: 1px dashed #D32F2F; border-radius: 8px; padding: 20px; margin-top: 16px; text-align: center; color: #999; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Шмель — препараты для инфузомата</title>
+  <style>
+    body { font-family: sans-serif; padding: 16px; color: #333; line-height: 1.6; }
+    h1 { color: #D32F2F; font-size: 22px; border-bottom: 2px solid #D32F2F; padding-bottom: 8px; }
+    h2 { color: #D32F2F; font-size: 16px; margin-top: 4px; }
+    details { margin-bottom: 8px; }
+    summary { background: #FFF8F8; border: 1px solid #FFCDD2; border-radius: 8px; padding: 12px 16px; cursor: pointer; font-weight: bold; font-size: 16px; }
+    summary:hover { background: #FFE0E0; }
+    .drug-content { padding: 12px; border: 1px solid #FFCDD2; border-top: none; border-radius: 0 0 8px 8px; background: #FFFAFA; }
+    .prep { background: #F3F8FF; border-left: 4px solid #1565C0; padding: 10px; margin: 8px 0; border-radius: 4px; }
+    .template { background: #FFF3E0; border-left: 4px solid #E65100; padding: 10px; margin: 8px 0; border-radius: 4px; font-family: monospace; font-size: 13px; }
+    .note { background: #F1F8E9; border-left: 4px solid #558B2F; padding: 10px; margin: 8px 0; border-radius: 4px; }
+    img { max-width: 100%; border-radius: 8px; margin: 8px 0; display: block; }
+  </style>
 </head>
 <body>
-<h1>Shmel'</h1>
-<div class="placeholder">
-<p>Kontent budet dobavlen pozdnee</p>
-</div>
+
+<h1>Шмель — препараты для инфузомата</h1>
+<p>Протоколы введения через шприцевой дозатор ДШП 5-20 «Шмель»</p>
+
+<!-- 1. Адреналин -->
+<details>
+  <summary>1. Адреналин</summary>
+  <div class="drug-content">
+    <h2>Для аллергозов, анафилактического шока</h2>
+
+    <div class="prep">
+      <strong>Приготовление:</strong><br>
+      Sol. Adrenalini 1 ml + Sol. Natrii chloridi 0,9% — 19 ml
+    </div>
+
+    <ul>
+      <li><strong>Болюс:</strong> 10 мл (0,5 мг)</li>
+      <li><strong>После болюса:</strong> 20 мл/ч (1 мг/ч)</li>
+      <li><strong>Диапазон:</strong> 2–20 мкг/мин (0,12–1,2 мг/ч)</li>
+    </ul>
+
+    <div class="template">
+      Sol. Adrenalini 1 ml + Sol. Natrii chloridi 0,9%-19 ml в/в болюсно 10 ml через шприцевой дозатор ДШП 5-20 «Шмель». С последующим введением 10 ml со скоростью 20 мл/ч
+    </div>
+
+    <div class="note">
+      <strong>Режим СЛР:</strong> 1 мг адреналина каждые 4 мин 10 сек<br><br>
+      <strong>Разведение 1</strong> (1 мг в 3 мл): взять 6 мл + 12 мл NaCl 0,9%<br>
+      <strong>Разведение 2</strong> (1 мг в 5 мл): взять 4 мл + 16 мл NaCl 0,9%
+    </div>
+  </div>
+</details>
+
+<!-- 2. Амиодарон -->
+<details>
+  <summary>2. Амиодарон</summary>
+  <div class="drug-content">
+
+    <div class="prep">
+      <strong>Приготовление:</strong><br>
+      Амиодарон 50 мг/мл — 6 мл (300 мг) + 14 мл 5% декстрозы
+    </div>
+
+    <ul>
+      <li><strong>Скорость введения:</strong> 80 мл/ч</li>
+      <li><strong>Мониторинг:</strong> АД, ЧСС, интервалы QT и QRS</li>
+    </ul>
+
+    <div class="template">
+      Sol. Amiodaroni 50mg/ml-6ml + Sol. Glucosae 5%-14ml в/в через шприцевой дозатор ДШП 5-20 «Шмель» со скоростью 80 мл/ч в течение 15 мин
+    </div>
+  </div>
+</details>
+
+<!-- 3. Допамин -->
+<details>
+  <summary>3. Допамин</summary>
+  <div class="drug-content">
+
+    <div class="prep">
+      <strong>Приготовление:</strong><br>
+      Допамин 40 мг/мл — 1 мл + 19 мл NaCl 0,9% → <strong>2 мг/мл</strong>
+    </div>
+
+    <ul>
+      <li><strong>Доза:</strong> 15 мкг/кг/мин</li>
+    </ul>
+
+    <div class="note">
+      <strong>Расчёт (пример для 90 кг):</strong><br>
+      90 × 15 = 1350 мкг/мин → 1,35 мг/мин → 0,675 мл/мин → <strong>40,5 мл/ч</strong>
+    </div>
+
+    <div class="template">
+      Sol. Dopamini 40mg/ml-1ml + Sol. Natrii chloridi 0,9%-19ml в/в через шприцевой дозатор ДШП 5-20 «Шмель» со скоростью ___ мл/ч
+    </div>
+
+    <img src="images/IMG-20241226-200934.jpg" alt="Таблица расчёта скорости допамина">
+  </div>
+</details>
+
+<!-- 4. Магния сульфат -->
+<details>
+  <summary>4. Магния сульфат</summary>
+  <div class="drug-content">
+
+    <div class="prep">
+      <strong>Приготовление:</strong><br>
+      Sol. Magnesii sulf. 250 мг/мл — 20 мл (без разведения)
+    </div>
+
+    <ul>
+      <li><strong>240 мл/ч</strong> — за 5 мин</li>
+      <li><strong>120 мл/ч</strong> — за 10 мин</li>
+      <li><strong>80 мл/ч</strong> — за 15 мин</li>
+      <li><strong>60 мл/ч</strong> — за 20 мин</li>
+    </ul>
+
+    <div class="template">
+      Sol. Magnesii sulf. 250 mg/ml-20 ml в/в через шприцевой дозатор ДШП 5-20 «Шмель» со скоростью ___ мл/ч
+    </div>
+
+    <div class="note">
+      <strong>При эклампсии:</strong> 16 мл + 4 мл NaCl 0,9%, скорость 60 мл/ч
+    </div>
+  </div>
+</details>
+
+<!-- 5. Метопролол -->
+<details>
+  <summary>5. Метопролол</summary>
+  <div class="drug-content">
+
+    <div class="prep">
+      <strong>Приготовление:</strong><br>
+      Метопролол (Беталок) 10 мг (2 амп) + 10 мл NaCl 0,9% → <strong>0,5 мг/мл</strong>
+    </div>
+
+    <ul>
+      <li><strong>Скорость:</strong> 120 мл/ч (10 мл за 5 мин)</li>
+      <li><strong>Максимальная доза:</strong> 20 мг</li>
+    </ul>
+
+    <div class="note">
+      <strong>Протокол:</strong><br>
+      Ввести половину шприца → оценка гемодинамики через 5 мин → при необходимости вторая половина
+    </div>
+
+    <div class="template">
+      Sol. Metoprololi 10ml + Sol. Natrii chloridi 0,9%-10ml в/в через шприцевой дозатор ДШП 5-20 «Шмель» со скоростью 120 мл/ч в течение 5 мин
+    </div>
+  </div>
+</details>
+
+<!-- 6. Морфин -->
+<details>
+  <summary>6. Морфин</summary>
+  <div class="drug-content">
+
+    <div class="prep">
+      <strong>Приготовление:</strong><br>
+      Морфин 10 мг/мл — 1 мл + 19 мл NaCl 0,9%
+    </div>
+
+    <ul>
+      <li><strong>Скорость:</strong> 120 мл/ч в течение 10 мин</li>
+      <li>Прекратить при достижении эффекта</li>
+    </ul>
+
+    <div class="template">
+      Sol. Morphini 10mg/ml-1ml + Sol. Natrii chloridi 0,9%-19ml в/в через шприцевой дозатор ДШП 5-20 «Шмель» со скоростью 120 мл/ч
+    </div>
+  </div>
+</details>
+
+<!-- 7. Нитроглицерин -->
+<details>
+  <summary>7. Нитроглицерин (Изокет)</summary>
+  <div class="drug-content">
+
+    <div class="note">
+      <strong>ПРОТИВОПОКАЗАН</strong> при ИМ с поражением правого желудочка
+    </div>
+
+    <div class="prep">
+      <strong>Приготовление:</strong><br>
+      Нитроглицерин (Изокет) 10 мл + 10 мл NaCl 0,9%
+    </div>
+
+    <ul>
+      <li><strong>Диапазон скоростей:</strong> 2–20 мл/ч (1–10 мг/ч)</li>
+    </ul>
+
+    <div class="template">
+      Sol. Nitroglycerini 1mg/ml-10ml + Sol. Natrii chloridi 0,9%-10ml в/в через шприцевой дозатор ДШП 5-20 «Шмель» со скоростью ___ мл/ч (титровать)
+    </div>
+  </div>
+</details>
+
+<!-- 8. Новокаинамид -->
+<details>
+  <summary>8. Новокаинамид</summary>
+  <div class="drug-content">
+
+    <div class="prep">
+      <strong>Приготовление:</strong><br>
+      Sol. Novocainamidi 10% — 10 мл + 10 мл NaCl 0,9%
+    </div>
+
+    <ul>
+      <li><strong>Максимальная скорость:</strong> 60 мл/ч (50 мг/мин)</li>
+      <li><strong>Мониторинг:</strong> АД, ЧСС, интервалы QT и QRS</li>
+    </ul>
+
+    <div class="template">
+      Sol. Novocainamidi 10%-10ml + Sol. Natrii chloridi 0,9%-10ml в/в через шприцевой дозатор ДШП 5-20 «Шмель» со скоростью 60 мл/ч в течение 20 мин
+    </div>
+  </div>
+</details>
+
+<!-- 9. Норадреналин (взрослые) -->
+<details>
+  <summary>9. Норадреналин (взрослые)</summary>
+  <div class="drug-content">
+
+    <div class="prep">
+      <strong>Приготовление:</strong><br>
+      Норадреналин 4 мл (8 мг) + 16 мл 5% декстрозы → <strong>0,4 мг/мл</strong>
+    </div>
+
+    <ul>
+      <li><strong>Доза:</strong> 1 мкг/кг/мин</li>
+    </ul>
+
+    <div class="note">
+      <strong>Расчёт (пример для 70 кг):</strong><br>
+      70 × 1 = 70 мкг/мин → 0,07 мг/мин → 0,175 мл/мин → <strong>10,5 мл/ч</strong>
+    </div>
+
+    <div class="template">
+      Sol. Norepinephrini 2mg/ml-4ml + Sol. Glucosae 5%-16ml в/в через шприцевой дозатор ДШП 5-20 «Шмель» со скоростью ___ мл/ч
+    </div>
+
+    <img src="images/IMG-20241226-200921.jpg" alt="Таблица расчёта скорости норадреналина (взрослые)">
+  </div>
+</details>
+
+<!-- 10. Норадреналин (дети) -->
+<details>
+  <summary>10. Норадреналин (дети)</summary>
+  <div class="drug-content">
+
+    <div class="prep">
+      <strong>Приготовление:</strong><br>
+      Норадреналин 1 мл (2 мг) + 19 мл 5% декстрозы → <strong>0,1 мг/мл</strong>
+    </div>
+
+    <ul>
+      <li><strong>Доза:</strong> 0,5 мкг/кг/мин</li>
+    </ul>
+
+    <div class="note">
+      <strong>Расчёт (пример для 25 кг):</strong><br>
+      25 × 0,5 = 12,5 мкг/мин → 0,0125 мг/мин → 0,125 мл/мин → <strong>7,5 мл/ч</strong>
+    </div>
+
+    <div class="template">
+      Sol. Norepinephrini 2mg/ml-1ml + Sol. Glucosae 5%-19ml в/в через шприцевой дозатор ДШП 5-20 «Шмель» со скоростью ___ мл/ч
+    </div>
+
+    <img src="images/IMG-20241226-200911.jpg" alt="Таблица расчёта скорости норадреналина (дети)">
+  </div>
+</details>
+
+<!-- 11. Урапидил -->
+<details>
+  <summary>11. Урапидил</summary>
+  <div class="drug-content">
+
+    <div class="prep">
+      <strong>Приготовление:</strong><br>
+      Урапидил 5 мг/мл — 5 мл + 15 мл NaCl 0,9%<br>
+      <em>Строго под мониторингом АД</em>
+    </div>
+
+    <ul>
+      <li><strong>Скорость:</strong> 120 мл/ч</li>
+    </ul>
+
+    <div class="note">
+      <strong>Протокол:</strong><br>
+      Ввести половину шприца (12,5 мг) за 5 мин → оценка состояния через 5 мин → при необходимости вторая половина (12,5 мг) за 5 мин
+    </div>
+
+    <div class="template">
+      Sol. Urapidili 5mg/ml-5ml + Sol. Natrii chloridi 0,9%-15ml в/в через шприцевой дозатор ДШП 5-20 «Шмель» со скоростью 120 мл/ч
+    </div>
+  </div>
+</details>
+
+<!-- 12. Эуфиллин -->
+<details>
+  <summary>12. Эуфиллин</summary>
+  <div class="drug-content">
+
+    <div class="prep">
+      <strong>Приготовление:</strong><br>
+      Эуфиллин 24 мг/мл — 10 мл + 10 мл NaCl 0,9%
+    </div>
+
+    <ul>
+      <li><strong>120 мл/ч</strong> — за 10 мин</li>
+      <li><strong>80 мл/ч</strong> — за 15 мин</li>
+    </ul>
+
+    <div class="template">
+      Sol. Euphyllini 24 mg/ml-10ml + Sol. Natrii chloridi 0,9%-10ml в/в через шприцевой дозатор ДШП 5-20 «Шмель» со скоростью 80 мл/ч
+    </div>
+  </div>
+</details>
+
 </body>
 </html>

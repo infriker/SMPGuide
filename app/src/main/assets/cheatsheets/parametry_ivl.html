@@ -6,13 +6,126 @@
 <style>
 body { font-family: sans-serif; padding: 16px; color: #333; line-height: 1.6; }
 h1 { color: #D32F2F; font-size: 22px; border-bottom: 2px solid #D32F2F; padding-bottom: 8px; }
-.placeholder { background: #FFF3F3; border: 1px dashed #D32F2F; border-radius: 8px; padding: 20px; margin-top: 16px; text-align: center; color: #999; }
+h2 { color: #D32F2F; font-size: 16px; margin-top: 20px; margin-bottom: 8px; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  margin-top: 8px;
+}
+
+th {
+  background: #D32F2F;
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+td {
+  padding: 9px 12px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+
+tr:nth-child(even) td {
+  background: #FFF8F8;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.section {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+.section-header {
+  background: #FFF8F8;
+  border-left: 4px solid #D32F2F;
+  padding: 10px 14px;
+  font-weight: bold;
+  font-size: 15px;
+  color: #333;
+}
 </style>
 </head>
 <body>
-<h1>Parametry IVL</h1>
-<div class="placeholder">
-<p>Kontent budet dobavlen pozdnee</p>
+<h1>Параметры ИВЛ</h1>
+
+<div class="section">
+  <div class="section-header">При сохранённом кровообращении</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Параметр</th>
+        <th>Значение</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FiO₂</td>
+        <td>0,5–1</td>
+      </tr>
+      <tr>
+        <td>Дыхательный объём</td>
+        <td>6–8 мл/кг</td>
+      </tr>
+      <tr>
+        <td>Частота дыхания</td>
+        <td>14–16 в мин</td>
+      </tr>
+      <tr>
+        <td>Макс. давление в контуре</td>
+        <td>до 30 мм вод. ст.</td>
+      </tr>
+      <tr>
+        <td>ПДКВ</td>
+        <td>5–10 мм вод. ст.</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
+<div class="section">
+  <div class="section-header">При остановке кровообращения</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Параметр</th>
+        <th>Значение</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FiO₂</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>Дыхательный объём</td>
+        <td>6 мл/кг</td>
+      </tr>
+      <tr>
+        <td>Частота дыхания</td>
+        <td>10 в мин</td>
+      </tr>
+      <tr>
+        <td>Макс. давление в контуре</td>
+        <td>до 30 мм вод. ст.</td>
+      </tr>
+      <tr>
+        <td>ПДКВ</td>
+        <td>5–10 мм вод. ст.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 </body>
 </html>
