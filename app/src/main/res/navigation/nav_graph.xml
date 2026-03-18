@@ -9,7 +9,26 @@
         android:id="@+id/templatesFragment"
         android:name="com.example.smp_help.ui.TemplatesFragment"
         android:label="@string/nav_templates"
-        tools:layout="@layout/fragment_list" />
+        tools:layout="@layout/fragment_list">
+        <action
+            android:id="@+id/action_templatesFragment_to_subCategoryFragment"
+            app:destination="@id/subCategoryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/subCategoryFragment"
+        android:name="com.example.smp_help.ui.SubcategoryFragment"
+        android:label="{sectionTitle}"
+        tools:layout="@layout/fragment_list">
+        <argument
+            android:name="sectionIndex"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="sectionTitle"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
 
     <fragment
         android:id="@+id/cheatSheetsFragment"
