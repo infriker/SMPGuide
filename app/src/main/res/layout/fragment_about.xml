@@ -53,7 +53,21 @@
             android:text="@string/about_disclaimer"
             android:textSize="14sp"
             android:textColor="@color/grey_text"
-            android:lineSpacingExtra="4dp" />
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:id="@+id/githubLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/github_link"
+            android:textSize="14sp"
+            android:textColor="@color/red_primary"
+            android:textStyle="bold"
+            android:drawablePadding="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground" />
 
     </LinearLayout>
 

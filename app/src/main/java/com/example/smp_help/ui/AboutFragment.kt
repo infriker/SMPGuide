@@ -1,5 +1,7 @@
 package com.example.smp_help.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +27,10 @@ class AboutFragment : Fragment() {
         val versionName = requireContext().packageManager
             .getPackageInfo(requireContext().packageName, 0).versionName
         binding.versionText.text = getString(R.string.about_version, versionName)
+        binding.githubLink.setOnClickListener {
+            val url = getString(R.string.github_url)
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        }
     }
 
     override fun onDestroyView() {
