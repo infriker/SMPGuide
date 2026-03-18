@@ -158,8 +158,8 @@ class AboutFragment : Fragment() {
                         binding.updateProgressBar.visibility = View.GONE
                         binding.updateStatusText.text = ""
                         binding.checkUpdateButton.isEnabled = true
+                        installApk(fileName)
                     }
-                    installApk(fileName)
                 }
             }
         }

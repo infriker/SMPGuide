@@ -14,7 +14,7 @@ android {
         applicationId = "com.example.smp_help"
         minSdk = 24
         targetSdk = 36
-        versionCode = (System.getenv("APP_VERSION_CODE") ?: "1").toInt()
+        versionCode = System.getenv("APP_VERSION_CODE")?.takeIf { it.isNotEmpty() }?.toInt() ?: 1
         versionName = System.getenv("APP_VERSION_NAME") ?: "0.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
