@@ -7,9 +7,11 @@ import com.example.smp_help.data.MenuItem
 import com.example.smp_help.databinding.ItemMenuEntryBinding
 
 class MenuItemAdapter(
-    private val items: List<MenuItem>,
+    private val allItems: List<MenuItem>,
     private val onItemClick: (MenuItem) -> Unit
 ) : RecyclerView.Adapter<MenuItemAdapter.ViewHolder>() {
+
+    private var filteredItems: List<MenuItem> = allItems.toList()
 
     inner class ViewHolder(private val binding: ItemMenuEntryBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -29,8 +31,17 @@ class MenuItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(filteredItems[position])
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = filteredItems.size
+
+    fun filter(query: String) {
+        filteredItems = if (query.isBlank()) {
+            allItems.toList()
+        } else {
+            allItems.filter { it.title.contains(query, ignoreCase = true) }
+        }
+        notifyDataSetChanged()
+    }
 }
