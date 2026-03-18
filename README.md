@@ -1,50 +1,113 @@
-# SMPGuide
+# СМПГайд
 
-Android-spravochnik dlya rabotnikov skoroj medicinskoj pomoshchi.
+Андроид-справочник для работников скорой медицинской помощи.
 
-Soderzhit shablony kart vyzova i shpargalki po medicinskym temam. Rabotaet polnost'yu offlajn — ves' kontent hranitsya lokal'no v prilozhenii.
+Содержит шаблоны карт вызова, шпаргалки по медицинским темам и медицинские калькуляторы. Работает полностью офлайн — весь контент хранится локально в приложении.
 
-## Funkcional'
+## Функционал
 
-- 16 kategorij shablonov kart vyzova (akusherstvo, kardiologiya, nevrologiya, travmatologiya i dr.)
-- 26 shpargalok (detskie dozy, parametry IVL, reanimaciya, shkaly i tablicy i dr.)
-- Drawer-navigaciya s razdhelami: Shablony kart, Shpargalki, O prilozhenii
-- Polnost'yu offlajn — ne trebuet podklyucheniya k internetu
-- Medicinskaya tema oformleniya (krasnyj/belyj)
+- **370 шаблонов карт вызова** в 16 медицинских категориях
+- **26 шпаргалок** по неотложным процедурам и справочным материалам
+- **8 медицинских калькуляторов** (шкалы, дозы, нормы)
+- Навигация через боковое меню (Drawer) с разделами: Шаблоны карт, Шпаргалки, Калькуляторы, О приложении
+- Полностью офлайн — не требует подключения к интернету
+- Медицинская тема оформления (красный/белый)
 
-## Trebovaniya
+## Категории шаблонов карт
+
+| Категория | Шаблонов |
+|---|---|
+| 🤰 Акушерство | 28 |
+| 💉 Анестезиология | 7 |
+| 🦠 Инфекционные | 28 |
+| ❤️ Кардиология | 18 |
+| ✝️ Констатация | 9 |
+| 🧠 Неврология | 29 |
+| 👂 Оториноларингология | 13 |
+| 👁️ Офтальмология | 6 |
+| 👶 Педиатрия | 14 |
+| 🦷 Стоматология | 8 |
+| 🩺 Терапия | 27 |
+| ☠️ Токсикология | 5 |
+| 🦴 Травматология | 78 |
+| 🫀 Урология | 21 |
+| 🔪 Хирургия | 58 |
+| 📋 Прочее | 5 |
+
+## Шпаргалки
+
+- Детские дозы препаратов
+- Параметры ИВЛ
+- Реанимация (один / вдвоём)
+- Шкалы и таблицы
+- Промывание желудка
+- Внутрикостный доступ
+- Ларингеальные трубки
+- Сортировка при ЧС
+- Площадь ожогов
+- Расчёт кислорода
+- Мониторинг дефибриллятором
+- Профилактика ВИЧ
+- Описание местного статуса (сыпь, стома, роднички, молочные железы)
+- Адреса и телефоны подстанций
+- И другие
+
+## Калькуляторы
+
+- Детские нормы по возрасту
+- Препараты в педиатрии
+- Срок беременности
+- Шкала ШОКС (сердечная недостаточность)
+- Шкала NEWS
+- Шкала Глазго
+- Вероятность ТЭЛА
+- Шкала LAMS
+
+## Требования
 
 - Android 7.0+ (API 24)
-- Android Studio Narwhal (2025.1) ili novee
+- Android Studio Narwhal (2025.1) или новее
 
-## Struktura proekta
+## Структура проекта
 
 ```
 app/src/main/
   assets/
-    templates/      — HTML-fajly shablonov kart (16 kategorij)
-    cheatsheets/    — HTML-fajly shpargalok (26 statej)
+    templates/       — HTML-файлы шаблонов карт (16 категорий, 370 файлов)
+    cheatsheets/     — HTML-файлы шпаргалок (26 файлов)
+    calculators/     — HTML-файлы калькуляторов (8 файлов)
   java/com/example/smp_help/
-    MainActivity.kt           — Drawer-navigaciya
-    WebViewActivity.kt        — Prosmotr HTML-kontenta
-    adapter/MenuItemAdapter.kt — Adapter dlya spiskov
-    data/MenuItem.kt          — Model' dannyh
-    data/DataSource.kt        — Spisok vseh shablonov i shpargalok
-    ui/TemplatesFragment.kt   — Ekran shablonov kart
-    ui/CheatSheetsFragment.kt — Ekran shpargalok
-    ui/AboutFragment.kt       — Ekran "O prilozhenii"
+    MainActivity.kt              — Drawer-навигация
+    WebViewActivity.kt           — Просмотр HTML-контента
+    adapter/MenuItemAdapter.kt   — Адаптер для списков
+    data/MenuItem.kt             — Модель данных элемента
+    data/TemplateSection.kt      — Модель раздела шаблонов
+    data/DataSource.kt           — Список всех шаблонов, шпаргалок и калькуляторов
+    ui/TemplatesFragment.kt      — Экран шаблонов карт
+    ui/CheatSheetsFragment.kt    — Экран шпаргалок
+    ui/CalculatorsFragment.kt    — Экран калькуляторов
+    ui/SubcategoryFragment.kt    — Экран подкатегории шаблонов
+    ui/AboutFragment.kt          — Экран «О приложении»
 ```
 
-## Kak dobavit' kontent
+## Как добавить или обновить контент
 
-Zamenyajte HTML-fajly v papkah `app/src/main/assets/templates/` i `app/src/main/assets/cheatsheets/` na fajly s real'nym soderzhimym. Kazhdyj fajl — obychnyj HTML s lyubym formatirovaraniem (tablicy, spiski, zhirnyj tekst i t.d.).
+Замените HTML-файлы в соответствующих папках:
 
-## Sborka
+- `app/src/main/assets/templates/<категория>/` — шаблоны карт вызова
+- `app/src/main/assets/cheatsheets/` — шпаргалки
+- `app/src/main/assets/calculators/` — калькуляторы
 
-1. Otkrojte proekt v Android Studio
-2. Sync Gradle
-3. Run na ustrojstve ili emulyatore
+Каждый файл — обычный HTML с любым форматированием (таблицы, списки, жирный текст и т.д.).
 
-## Licenziya
+Для добавления нового элемента в меню — добавьте `MenuItem` в `DataSource.kt` с указанием пути к файлу.
 
-Prilozhenie sozdano dlya udobstva rabotnikov SMP. Vsya medicinskaya informaciya vzyata iz otkrytyh istochnikov.
+## Сборка
+
+1. Откройте проект в Android Studio
+2. Выполните Sync Gradle
+3. Запустите на устройстве или эмуляторе
+
+## Лицензия
+
+Приложение создано для удобства работников СМП. Вся медицинская информация взята из открытых источников.
