@@ -44,7 +44,28 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Get version from tag or input
+        id: get_version_early
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            RAW_VERSION="${{ github.event.inputs.version }}"
+          else
+            RAW_VERSION="${GITHUB_REF#refs/tags/}"
+          fi
+          # Strip leading 'v' for versionName
+          VERSION_NAME="${RAW_VERSION#v}"
+          # Compute versionCode from semver: MAJOR*10000 + MINOR*100 + PATCH
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION_NAME"
+          MAJOR="${MAJOR:-0}"; MINOR="${MINOR:-0}"; PATCH="${PATCH:-1}"
+          VERSION_CODE=$(( MAJOR * 10000 + MINOR * 100 + PATCH ))
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+          echo "raw_version=$RAW_VERSION" >> $GITHUB_OUTPUT
+
       - name: Build Release APK
+        env:
+          APP_VERSION_NAME: ${{ steps.get_version_early.outputs.version_name }}
+          APP_VERSION_CODE: ${{ steps.get_version_early.outputs.version_code }}
         run: ./gradlew assembleRelease
 
       - name: Sign APK
@@ -59,25 +80,16 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "35.0.0"
 
-      - name: Get version from tag
-        id: get_version
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
-          else
-            echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-          fi
-
       - name: Rename signed APK
         run: |
           cp "${{ steps.sign_apk.outputs.signedReleaseFile }}" \
-            "app/build/outputs/apk/release/SMPGuide-${{ steps.get_version.outputs.version }}.apk"
+            "app/build/outputs/apk/release/SMPGuide-${{ steps.get_version_early.outputs.raw_version }}.apk"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.get_version.outputs.version }}
-          name: SMPGuide ${{ steps.get_version.outputs.version }}
+          tag_name: ${{ steps.get_version_early.outputs.raw_version }}
+          name: SMPGuide ${{ steps.get_version_early.outputs.raw_version }}
           body: |
             ## Что нового
             _Опишите изменения в этом релизе._
@@ -85,7 +97,7 @@ jobs:
             ## Установка
             Скачайте APK файл ниже и установите на Android устройство (Android 7.0+).
             Перед установкой может потребоваться разрешить установку из неизвестных источников.
-          files: app/build/outputs/apk/release/SMPGuide-${{ steps.get_version.outputs.version }}.apk
+          files: app/build/outputs/apk/release/SMPGuide-${{ steps.get_version_early.outputs.raw_version }}.apk
           draft: false
           prerelease: false
         env:
