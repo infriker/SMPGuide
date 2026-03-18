@@ -2,10 +2,15 @@ package com.example.smp_help.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.smp_help.R
@@ -18,6 +23,7 @@ class TemplatesFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
     private val binding get() = _binding!!
+    private lateinit var adapter: MenuItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -34,7 +40,7 @@ class TemplatesFragment : Fragment() {
             MenuItem(section.emoji, section.title, index.toString())
         }
 
-        val adapter = MenuItemAdapter(sectionItems) { item ->
+        adapter = MenuItemAdapter(sectionItems) { item ->
             val index = item.url.toInt()
             val section = sections[index]
             findNavController().navigate(
@@ -48,6 +54,24 @@ class TemplatesFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
+
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.search_menu, menu)
+                val searchItem = menu.findItem(R.id.action_search)
+                val searchView = searchItem.actionView as SearchView
+                searchView.queryHint = "Поиск по заголовкам"
+                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?) = true
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        adapter.filter(newText ?: "")
+                        return true
+                    }
+                })
+            }
+
+            override fun onMenuItemSelected(menuItem: android.view.MenuItem) = false
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onDestroyView() {
