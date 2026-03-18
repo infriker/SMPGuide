@@ -1,6 +1,9 @@
 package com.example.smp_help.ui
 
 import android.app.DownloadManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -13,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.smp_help.R
@@ -180,21 +184,42 @@ class AboutFragment : Fragment() {
     }
 
     private fun installApk(fileName: String) {
-        val file = File(
-            requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName
-        )
+        val ctx = context ?: return
+        val file = File(ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
         if (!file.exists()) return
 
-        val uri = FileProvider.getUriForFile(
-            requireContext(),
-            "${requireContext().packageName}.provider",
-            file
-        )
+        val uri = FileProvider.getUriForFile(ctx, "${ctx.packageName}.provider", file)
         val intent = Intent(Intent.ACTION_VIEW).apply {
             setDataAndType(uri, "application/vnd.android.package-archive")
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
         }
-        startActivity(intent)
+
+        // Попытка открыть напрямую (работает если приложение на переднем плане)
+        try {
+            startActivity(intent)
+        } catch (_: Exception) { }
+
+        // Уведомление — надёжный способ для фона и Android 10+
+        val channelId = "update_install"
+        val notifManager = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notifManager.createNotificationChannel(
+                NotificationChannel(channelId, getString(R.string.update_notif_channel), NotificationManager.IMPORTANCE_HIGH)
+            )
+        }
+        val pendingIntent = PendingIntent.getActivity(
+            ctx, 0, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+        val notification = NotificationCompat.Builder(ctx, channelId)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle(getString(R.string.update_notif_title))
+            .setContentText(getString(R.string.update_notif_text))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .build()
+        notifManager.notify(1001, notification)
     }
 
     override fun onDestroyView() {
