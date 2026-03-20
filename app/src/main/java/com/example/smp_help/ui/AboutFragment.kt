@@ -8,10 +8,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +36,8 @@ class AboutFragment : Fragment() {
 
     private var downloadId: Long = -1
     private var downloadReceiver: BroadcastReceiver? = null
+    private val progressHandler = Handler(Looper.getMainLooper())
+    private var progressRunnable: Runnable? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -139,9 +144,20 @@ class AboutFragment : Fragment() {
 
     private fun startDownload(apkUrl: String, version: String) {
         binding.updateStatusText.text = getString(R.string.update_downloading)
-        binding.updateProgressBar.visibility = View.VISIBLE
+        binding.updateProgressBar.visibility = View.GONE
+        binding.downloadProgressBar.visibility = View.VISIBLE
+        binding.downloadProgressBar.progress = 0
+        binding.downloadProgressText.visibility = View.VISIBLE
+        binding.downloadProgressText.text = "0%"
 
         val fileName = "SMPGuide-$version.apk"
+
+        // Удалить старый файл если существует
+        val existingFile = File(
+            requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName
+        )
+        if (existingFile.exists()) existingFile.delete()
+
         val request = DownloadManager.Request(Uri.parse(apkUrl))
             .setTitle(getString(R.string.app_name))
             .setDescription(getString(R.string.update_downloading))
@@ -154,13 +170,19 @@ class AboutFragment : Fragment() {
         val dm = requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         downloadId = dm.enqueue(request)
 
+        startProgressTracking(dm)
+
         downloadReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
                 if (id == downloadId) {
+                    stopProgressTracking()
                     activity?.runOnUiThread {
-                        binding.updateProgressBar.visibility = View.GONE
-                        binding.updateStatusText.text = ""
+                        binding.downloadProgressBar.progress = 100
+                        binding.downloadProgressText.text = "100%"
+                        binding.updateStatusText.text = getString(R.string.update_downloaded)
+                        binding.downloadProgressBar.visibility = View.GONE
+                        binding.downloadProgressText.visibility = View.GONE
                         binding.checkUpdateButton.isEnabled = true
                         installApk(fileName)
                     }
@@ -181,6 +203,62 @@ class AboutFragment : Fragment() {
                 IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
             )
         }
+    }
+
+    private fun startProgressTracking(dm: DownloadManager) {
+        progressRunnable = object : Runnable {
+            override fun run() {
+                if (_binding == null) return
+                val query = DownloadManager.Query().setFilterById(downloadId)
+                var cursor: Cursor? = null
+                try {
+                    cursor = dm.query(query)
+                    if (cursor != null && cursor.moveToFirst()) {
+                        val bytesDownloaded = cursor.getLong(
+                            cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)
+                        )
+                        val bytesTotal = cursor.getLong(
+                            cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES)
+                        )
+                        val status = cursor.getInt(
+                            cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS)
+                        )
+
+                        if (status == DownloadManager.STATUS_FAILED) {
+                            stopProgressTracking()
+                            binding.downloadProgressBar.visibility = View.GONE
+                            binding.downloadProgressText.visibility = View.GONE
+                            binding.updateStatusText.text = getString(R.string.update_download_failed)
+                            binding.checkUpdateButton.isEnabled = true
+                            return
+                        }
+
+                        if (bytesTotal > 0) {
+                            val progress = ((bytesDownloaded * 100) / bytesTotal).toInt()
+                            binding.downloadProgressBar.progress = progress
+                            val downloadedMb = bytesDownloaded / (1024.0 * 1024.0)
+                            val totalMb = bytesTotal / (1024.0 * 1024.0)
+                            binding.downloadProgressText.text =
+                                String.format("%.1f / %.1f МБ (%d%%)", downloadedMb, totalMb, progress)
+                        }
+
+                        if (status != DownloadManager.STATUS_SUCCESSFUL) {
+                            progressHandler.postDelayed(this, 300)
+                        }
+                    }
+                } catch (_: Exception) {
+                    progressHandler.postDelayed(this, 300)
+                } finally {
+                    cursor?.close()
+                }
+            }
+        }
+        progressHandler.post(progressRunnable!!)
+    }
+
+    private fun stopProgressTracking() {
+        progressRunnable?.let { progressHandler.removeCallbacks(it) }
+        progressRunnable = null
     }
 
     private fun installApk(fileName: String) {
@@ -224,6 +302,7 @@ class AboutFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        stopProgressTracking()
         downloadReceiver?.let {
             try { requireContext().unregisterReceiver(it) } catch (_: Exception) { }
         }
