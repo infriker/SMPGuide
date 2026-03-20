@@ -20,7 +20,7 @@ h2{font-size:20px;text-align:center;color:var(--red);border-bottom:2px solid var
 .calc-total{margin-top:12px;padding:12px;background:var(--sub);border:1px solid var(--border);border-radius:10px;font-size:18px;font-weight:bold;text-align:center;}
 .calc-info{margin-top:10px;padding:10px;border-radius:8px;border:2px solid var(--red);color:var(--red);font-size:16px;font-weight:bold;text-align:center;background:var(--panel);}
 /* calc-section grid rows */
-.calc-section .calc-row{display:grid;grid-template-columns:55% 30% 15%;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px;background:var(--sub);}
+.calc-section .calc-row{display:grid;grid-template-columns:5.5fr 3fr 1.5fr;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px;background:var(--sub);}
 .calc-section .calc-row>*{border-right:1px solid var(--border);padding:8px;min-width:0;}
 .calc-section .calc-row>*:last-child{border-right:none;}
 .calc-section .calc-row label{font-size:13px;line-height:1.2;display:flex;align-items:center;word-break:break-word;}
