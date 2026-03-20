@@ -1,0 +1,34 @@
+name: "Предложение"
+description: "Предложить новый шаблон, шпаргалку, калькулятор или улучшение"
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Тип предложения
+      options:
+        - Новый шаблон карты вызова
+        - Новая шпаргалка
+        - Новый калькулятор
+        - Улучшение интерфейса
+        - Другое
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Описание
+      description: Подробно опишите, что вы предлагаете
+      placeholder: "Добавить шаблон карты вызова для политравмы с чек-листом по ATLS"
+    validations:
+      required: true
+
+  - type: textarea
+    id: sources
+    attributes:
+      label: Источники
+      description: Если предлагаете медицинский контент — укажите источники
+      placeholder: "Клинические рекомендации МЗ РФ «Политравма у взрослых», 2024"
+    validations:
+      required: false

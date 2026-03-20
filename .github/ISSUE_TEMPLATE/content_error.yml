@@ -1,0 +1,32 @@
+name: "Ошибка в медицинском контенте"
+description: "Сообщить об ошибке в шаблоне, шпаргалке или калькуляторе"
+labels: ["контент"]
+body:
+  - type: input
+    id: file
+    attributes:
+      label: Где найдена ошибка?
+      description: Название шаблона, шпаргалки или калькулятора
+      placeholder: "Шпаргалка «Детские дозы»"
+    validations:
+      required: true
+
+  - type: textarea
+    id: error-description
+    attributes:
+      label: В чём ошибка?
+      description: Опишите, что именно неверно
+      placeholder: "Указана неверная дозировка адреналина для детей: написано 0.1 мг/кг, должно быть 0.01 мг/кг"
+    validations:
+      required: true
+
+  - type: textarea
+    id: correct-info
+    attributes:
+      label: Верная информация
+      description: Укажите правильные данные и источник
+      placeholder: |
+        Доза адреналина: 0.01 мг/кг (0.1 мл/кг раствора 1:10000)
+        Источник: Клинические рекомендации МЗ РФ, 2024
+    validations:
+      required: true
