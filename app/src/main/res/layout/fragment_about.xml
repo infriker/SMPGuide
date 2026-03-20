@@ -84,6 +84,25 @@
             android:visibility="gone"
             android:layout_marginBottom="8dp" />
 
+        <ProgressBar
+            android:id="@+id/downloadProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="0"
+            android:visibility="gone"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/downloadProgressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/grey_text"
+            android:visibility="gone"
+            android:layout_marginBottom="8dp" />
+
         <TextView
             android:id="@+id/updateStatusText"
             android:layout_width="wrap_content"

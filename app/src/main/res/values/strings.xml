@@ -26,6 +26,10 @@
     <string name="update_error">Не удалось проверить обновления</string>
     <string name="update_no_apk">APK файл не найден в релизе</string>
     <string name="update_notif_channel">Обновления</string>
+    <string name="update_downloaded">Обновление загружено. Если установка не началась автоматически, проверьте уведомления</string>
+    <string name="update_download_failed">Ошибка загрузки обновления</string>
+    <string name="update_grant_install_permission">Разрешите установку из этого источника</string>
+    <string name="update_install_permission_denied">Без разрешения на установку обновление невозможно</string>
     <string name="update_notif_title">Обновление загружено</string>
     <string name="update_notif_text">Нажмите для установки</string>
 </resources>

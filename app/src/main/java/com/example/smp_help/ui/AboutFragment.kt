@@ -8,14 +8,19 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -33,6 +38,45 @@ class AboutFragment : Fragment() {
 
     private var downloadId: Long = -1
     private var downloadReceiver: BroadcastReceiver? = null
+    private val progressHandler = Handler(Looper.getMainLooper())
+    private var progressRunnable: Runnable? = null
+
+    // Сохраняем данные для загрузки, пока пользователь даёт разрешение
+    private var pendingApkUrl: String? = null
+    private var pendingVersion: String? = null
+
+    // Сохраняем имя файла для установки после получения разрешения
+    private var pendingInstallFileName: String? = null
+
+    private val installPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        val ctx = context ?: return@registerForActivityResult
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+            ctx.packageManager.canRequestPackageInstalls()
+        ) {
+            // Разрешение получено
+            val installFile = pendingInstallFileName
+            if (installFile != null) {
+                // Файл уже скачан — устанавливаем
+                pendingInstallFileName = null
+                openApkInstaller(installFile)
+            } else {
+                // Файл ещё не скачан — начинаем загрузку
+                val url = pendingApkUrl
+                val ver = pendingVersion
+                if (url != null && ver != null) {
+                    pendingApkUrl = null
+                    pendingVersion = null
+                    startDownload(url, ver)
+                }
+            }
+        } else {
+            Toast.makeText(ctx, R.string.update_install_permission_denied, Toast.LENGTH_LONG).show()
+            binding.checkUpdateButton.isEnabled = true
+            binding.updateStatusText.text = ""
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -94,7 +138,7 @@ class AboutFragment : Fragment() {
                             if (apkUrl != null) {
                                 binding.updateStatusText.text =
                                     getString(R.string.update_available, latestVersion)
-                                startDownload(apkUrl, latestVersion)
+                                requestDownloadWithPermissionCheck(apkUrl, latestVersion)
                             } else {
                                 binding.updateStatusText.text =
                                     getString(R.string.update_available, latestVersion)
@@ -137,11 +181,47 @@ class AboutFragment : Fragment() {
         return false
     }
 
+    /**
+     * Проверяет разрешение на установку из неизвестных источников.
+     * Если разрешение есть — начинает загрузку.
+     * Если нет — отправляет в настройки, а после возврата продолжает.
+     */
+    private fun requestDownloadWithPermissionCheck(apkUrl: String, version: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (!requireContext().packageManager.canRequestPackageInstalls()) {
+                pendingApkUrl = apkUrl
+                pendingVersion = version
+                binding.updateStatusText.text = getString(R.string.update_grant_install_permission)
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                    Uri.parse("package:${requireContext().packageName}")
+                )
+                installPermissionLauncher.launch(intent)
+                return
+            }
+        }
+        startDownload(apkUrl, version)
+    }
+
+    private var currentDownloadFileName: String? = null
+
     private fun startDownload(apkUrl: String, version: String) {
         binding.updateStatusText.text = getString(R.string.update_downloading)
-        binding.updateProgressBar.visibility = View.VISIBLE
+        binding.updateProgressBar.visibility = View.GONE
+        binding.downloadProgressBar.visibility = View.VISIBLE
+        binding.downloadProgressBar.progress = 0
+        binding.downloadProgressText.visibility = View.VISIBLE
+        binding.downloadProgressText.text = "0%"
 
         val fileName = "SMPGuide-$version.apk"
+        currentDownloadFileName = fileName
+
+        // Удалить старый файл если существует
+        val existingFile = File(
+            requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName
+        )
+        if (existingFile.exists()) existingFile.delete()
+
         val request = DownloadManager.Request(Uri.parse(apkUrl))
             .setTitle(getString(R.string.app_name))
             .setDescription(getString(R.string.update_downloading))
@@ -149,18 +229,25 @@ class AboutFragment : Fragment() {
             .setDestinationInExternalFilesDir(
                 requireContext(), Environment.DIRECTORY_DOWNLOADS, fileName
             )
+            .setMimeType("application/vnd.android.package-archive")
             .setAllowedOverMetered(true)
 
         val dm = requireContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         downloadId = dm.enqueue(request)
 
+        startProgressTracking(dm)
+
         downloadReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
                 if (id == downloadId) {
+                    stopProgressTracking()
                     activity?.runOnUiThread {
-                        binding.updateProgressBar.visibility = View.GONE
-                        binding.updateStatusText.text = ""
+                        binding.downloadProgressBar.progress = 100
+                        binding.downloadProgressText.text = "100%"
+                        binding.updateStatusText.text = getString(R.string.update_downloaded)
+                        binding.downloadProgressBar.visibility = View.GONE
+                        binding.downloadProgressText.visibility = View.GONE
                         binding.checkUpdateButton.isEnabled = true
                         installApk(fileName)
                     }
@@ -168,11 +255,12 @@ class AboutFragment : Fragment() {
             }
         }
 
+        // RECEIVER_EXPORTED обязателен — broadcast приходит от системного DownloadManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requireContext().registerReceiver(
                 downloadReceiver,
                 IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
-                Context.RECEIVER_NOT_EXPORTED
+                Context.RECEIVER_EXPORTED
             )
         } else {
             @Suppress("UnspecifiedRegisterReceiverFlag")
@@ -183,7 +271,103 @@ class AboutFragment : Fragment() {
         }
     }
 
+    private fun startProgressTracking(dm: DownloadManager) {
+        progressRunnable = object : Runnable {
+            override fun run() {
+                if (_binding == null) return
+                val query = DownloadManager.Query().setFilterById(downloadId)
+                var cursor: Cursor? = null
+                try {
+                    cursor = dm.query(query)
+                    if (cursor != null && cursor.moveToFirst()) {
+                        val bytesDownloaded = cursor.getLong(
+                            cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)
+                        )
+                        val bytesTotal = cursor.getLong(
+                            cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES)
+                        )
+                        val status = cursor.getInt(
+                            cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS)
+                        )
+
+                        if (status == DownloadManager.STATUS_FAILED) {
+                            stopProgressTracking()
+                            binding.downloadProgressBar.visibility = View.GONE
+                            binding.downloadProgressText.visibility = View.GONE
+                            binding.updateStatusText.text = getString(R.string.update_download_failed)
+                            binding.checkUpdateButton.isEnabled = true
+                            return
+                        }
+
+                        if (bytesTotal > 0) {
+                            val progress = ((bytesDownloaded * 100) / bytesTotal).toInt()
+                            binding.downloadProgressBar.progress = progress
+                            val downloadedMb = bytesDownloaded / (1024.0 * 1024.0)
+                            val totalMb = bytesTotal / (1024.0 * 1024.0)
+                            binding.downloadProgressText.text =
+                                String.format("%.1f / %.1f МБ (%d%%)", downloadedMb, totalMb, progress)
+                        }
+
+                        if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                            // Fallback: если BroadcastReceiver не сработал — ловим здесь
+                            val fName = currentDownloadFileName
+                            if (fName != null) {
+                                currentDownloadFileName = null
+                                stopProgressTracking()
+                                binding.downloadProgressBar.progress = 100
+                                binding.downloadProgressText.text = "100%"
+                                binding.updateStatusText.text = getString(R.string.update_downloaded)
+                                binding.downloadProgressBar.visibility = View.GONE
+                                binding.downloadProgressText.visibility = View.GONE
+                                binding.checkUpdateButton.isEnabled = true
+                                installApk(fName)
+                            }
+                            return
+                        }
+
+                        progressHandler.postDelayed(this, 300)
+                    }
+                } catch (_: Exception) {
+                    progressHandler.postDelayed(this, 300)
+                } finally {
+                    cursor?.close()
+                }
+            }
+        }
+        progressHandler.post(progressRunnable!!)
+    }
+
+    private fun stopProgressTracking() {
+        progressRunnable?.let { progressHandler.removeCallbacks(it) }
+        progressRunnable = null
+    }
+
+    /**
+     * Устанавливает APK. Если разрешения нет — запрашивает и устанавливает после получения.
+     */
     private fun installApk(fileName: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val ctx = context ?: return
+            if (!ctx.packageManager.canRequestPackageInstalls()) {
+                // Разрешение отозвали пока качалось — запрашиваем снова
+                pendingInstallFileName = fileName
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                    Uri.parse("package:${ctx.packageName}")
+                )
+                installPermissionLauncher.launch(intent)
+                return
+            }
+        }
+        openApkInstaller(fileName)
+    }
+
+    /**
+     * Открывает системный установщик APK.
+     * Сначала пытается открыть напрямую через startActivity,
+     * затем создаёт уведомление как запасной вариант.
+     */
+    private fun openApkInstaller(fileName: String) {
         val ctx = context ?: return
         val file = File(ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), fileName)
         if (!file.exists()) return
@@ -191,15 +375,23 @@ class AboutFragment : Fragment() {
         val uri = FileProvider.getUriForFile(ctx, "${ctx.packageName}.provider", file)
         val intent = Intent(Intent.ACTION_VIEW).apply {
             setDataAndType(uri, "application/vnd.android.package-archive")
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+            putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
 
-        // Попытка открыть напрямую (работает если приложение на переднем плане)
+        // Открываем установщик напрямую
         try {
             startActivity(intent)
+            return
         } catch (_: Exception) { }
 
-        // Уведомление — надёжный способ для фона и Android 10+
+        // Fallback: уведомление
+        showInstallNotification(ctx, intent)
+    }
+
+    private fun showInstallNotification(ctx: Context, intent: Intent) {
         val channelId = "update_install"
         val notifManager = ctx.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -224,6 +416,7 @@ class AboutFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        stopProgressTracking()
         downloadReceiver?.let {
             try { requireContext().unregisterReceiver(it) } catch (_: Exception) { }
         }
