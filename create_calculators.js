@@ -12,15 +12,15 @@ const CSS = `
 *{box-sizing:border-box;}
 body{background:var(--bg);font-family:Arial,sans-serif;margin:0;padding:16px;color:var(--text);}
 h2{font-size:20px;text-align:center;color:var(--red);border-bottom:2px solid var(--red);padding-bottom:8px;margin-bottom:16px;}
-.calc-box{background:var(--panel);padding:16px;border-radius:12px;box-shadow:0 4px 10px var(--shadow);}
+.calc-box{background:var(--panel);padding:16px;border-radius:12px;box-shadow:0 4px 10px var(--shadow);overflow:hidden;}
 .calc-title{text-align:center;font-size:20px;margin-bottom:14px;}
 .calc-row{display:flex;gap:10px;margin-bottom:12px;align-items:center;}
-.calc-select{flex:1;padding:10px;font-size:15px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--text);}
+.calc-select{flex:1;min-width:0;padding:10px;font-size:15px;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--text);}
 .calc-result{background:var(--sub);border-radius:8px;padding:14px;font-size:17px;text-align:center;color:var(--text);margin-top:10px;}
 .calc-total{margin-top:12px;padding:12px;background:var(--sub);border:1px solid var(--border);border-radius:10px;font-size:18px;font-weight:bold;text-align:center;}
 .calc-info{margin-top:10px;padding:10px;border-radius:8px;border:2px solid var(--red);color:var(--red);font-size:16px;font-weight:bold;text-align:center;background:var(--panel);}
 /* calc-section grid rows */
-.calc-section .calc-row{display:grid;grid-template-columns:55% 30% 15%;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px;background:var(--sub);}
+.calc-section .calc-row{display:grid;grid-template-columns:5.5fr 3fr 1.5fr;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px;background:var(--sub);}
 .calc-section .calc-row>*{border-right:1px solid var(--border);padding:8px;min-width:0;}
 .calc-section .calc-row>*:last-child{border-right:none;}
 .calc-section .calc-row label{font-size:13px;line-height:1.2;display:flex;align-items:center;word-break:break-word;}
