@@ -203,6 +203,8 @@ class AboutFragment : Fragment() {
         startDownload(apkUrl, version)
     }
 
+    private var currentDownloadFileName: String? = null
+
     private fun startDownload(apkUrl: String, version: String) {
         binding.updateStatusText.text = getString(R.string.update_downloading)
         binding.updateProgressBar.visibility = View.GONE
@@ -212,6 +214,7 @@ class AboutFragment : Fragment() {
         binding.downloadProgressText.text = "0%"
 
         val fileName = "SMPGuide-$version.apk"
+        currentDownloadFileName = fileName
 
         // Удалить старый файл если существует
         val existingFile = File(
@@ -252,11 +255,12 @@ class AboutFragment : Fragment() {
             }
         }
 
+        // RECEIVER_EXPORTED обязателен — broadcast приходит от системного DownloadManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requireContext().registerReceiver(
                 downloadReceiver,
                 IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE),
-                Context.RECEIVER_NOT_EXPORTED
+                Context.RECEIVER_EXPORTED
             )
         } else {
             @Suppress("UnspecifiedRegisterReceiverFlag")
@@ -304,9 +308,24 @@ class AboutFragment : Fragment() {
                                 String.format("%.1f / %.1f МБ (%d%%)", downloadedMb, totalMb, progress)
                         }
 
-                        if (status != DownloadManager.STATUS_SUCCESSFUL) {
-                            progressHandler.postDelayed(this, 300)
+                        if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                            // Fallback: если BroadcastReceiver не сработал — ловим здесь
+                            val fName = currentDownloadFileName
+                            if (fName != null) {
+                                currentDownloadFileName = null
+                                stopProgressTracking()
+                                binding.downloadProgressBar.progress = 100
+                                binding.downloadProgressText.text = "100%"
+                                binding.updateStatusText.text = getString(R.string.update_downloaded)
+                                binding.downloadProgressBar.visibility = View.GONE
+                                binding.downloadProgressText.visibility = View.GONE
+                                binding.checkUpdateButton.isEnabled = true
+                                installApk(fName)
+                            }
+                            return
                         }
+
+                        progressHandler.postDelayed(this, 300)
                     }
                 } catch (_: Exception) {
                     progressHandler.postDelayed(this, 300)
